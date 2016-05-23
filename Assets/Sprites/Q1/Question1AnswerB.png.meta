@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: e3329c20daab4a947a03436cf2661a2e
-timeCreated: 1463278166
+timeCreated: 1463426471
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -54,7 +54,7 @@ TextureImporter:
     - name: Question1AnswerB_0
       rect:
         serializedVersion: 2
-        x: 212
+        x: 254
         y: 252
         width: 256
         height: 64
