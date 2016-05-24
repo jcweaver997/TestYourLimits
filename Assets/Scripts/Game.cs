@@ -8,10 +8,12 @@ public class Game : MonoBehaviour {
 	public List<Question> questions;
 	public Image questionR, aR, bR, cR, dR;
 	public RectTransform red, blue;
+	public Image speedup;
     
-
+	private Color cClear = new Color(1f,1f,1f,0f);
+	private Color cOpaque = new Color(1f,1f,1f,1f);
 	private int currentQuestion = -1;
-	private Vector3 move = new Vector3(0,15,0);
+	private Vector3 move = new Vector3(0f,15f,0f);
 
     void Start()
     {
@@ -37,8 +39,8 @@ public class Game : MonoBehaviour {
 
 	private void Answer(int a){
         Debug.Log(answerOrder[a]);
-        Debug.Log(questions[currentQuestion].ianswer);
-        if (questions[currentQuestion].ianswer == answerOrder[a])
+		Debug.Log((int)questions[currentQuestion].answer);
+		if (questions[currentQuestion].answer == (Question.Answer)answerOrder[a])
         {
 			Right();
 		}else{
@@ -51,11 +53,31 @@ public class Game : MonoBehaviour {
 
 	private void Wrong(){
 		red.position -= move;
+		GameOver.win = false;
+		SceneManager.LoadScene("GameOver");
 	}
 
 	private void Right(){
 		red.position += move;
+		StopCoroutine(Showspeed());
+		StartCoroutine(Showspeed());
 	}
+
+	public IEnumerator Showspeed(){
+
+		int counter = 10;
+
+		while (counter > 0){
+			speedup.color = cOpaque;
+			yield return new WaitForSeconds(.05f*Mathf.Pow(counter,.75f));
+			speedup.color = cClear;
+			yield return new WaitForSeconds(.1f);
+			counter--;
+		}
+
+
+	}
+
 
 	private void TheirTurn(){
 		bool correct = Random.Range(0,4)!=0;
@@ -101,8 +123,8 @@ public class Game : MonoBehaviour {
     }
 
 	private void EndGame(){
-		GameOver.win = red.position.y >= blue.position.y;
-		SceneManager.LoadScene("GameOver");
+		GameOver.win = true;
+		SceneManager.LoadScene("Win");
 	}
 
 }
